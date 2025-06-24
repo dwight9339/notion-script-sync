@@ -1,0 +1,23 @@
+{
+  "name": "notion-script-sync",
+  "version": "1.0.0",
+  "description": "This project streamlines the process of synchronizing a granular YouTube video script (written as a nested document) with a Notion storyboard database.  \r It’s designed for creators who want creative freedom in drafting scripts—while maintaining precise, up-to-date alignment with their production visuals and assets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dwight9339/notion-script-sync.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dwight9339/notion-script-sync/issues"
+  },
+  "homepage": "https://github.com/dwight9339/notion-script-sync#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "^5.8.3"
+  }
+}
