@@ -2,9 +2,19 @@ import { get } from "http";
 import {
     getProjectPageId,
     getPageBlockChildren,
-    getCrucialIds
+    getCrucialIds,
+    ScriptBeat,
+    ScriptSection,
+    ScriptParagraph,
+    ScriptDocument,
+    getScript,
+    syncStoryboard
 } from "./notion";
-import { BlockObjectResponse, ToggleBlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+    BlockObjectResponse,
+    ToggleBlockObjectResponse,
+    BulletedListItemBlockObjectResponse
+} from "@notionhq/client/build/src/api-endpoints";
 
 const exampleWebhookBody = {
   "attempt_number": 1,
@@ -51,6 +61,13 @@ const exampleWebhookBody = {
     const { scriptBlockId, storyboardDbId } = await getCrucialIds(projectPageId);
     console.log("Script Block ID:", scriptBlockId);
     console.log("Storyboard Database ID:", storyboardDbId);
+
+    // Parse the script into a structured format
+    const script = await getScript(scriptBlockId) as ScriptDocument;
+    console.log("Parsed Script:", JSON.stringify(script, null, 2));
+
+    // Sync stoyrboard with script
+    await syncStoryboard(script, storyboardDbId);
   } catch (error) {
     console.error("Error:", error);
   }
