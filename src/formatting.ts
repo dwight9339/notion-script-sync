@@ -7,7 +7,6 @@ import {
     ToggleBlockObjectResponse
 } from "@notionhq/client/build/src/api-endpoints";
 import {
-  listBlockChildren,
   queryDatabase
 } from "./notion";
 import { normalize } from "./helpers";
@@ -34,6 +33,38 @@ function getPlain(prop: any): string {
     default:
       return "";
   }
+}
+
+async function getAllStoryboardRows(storyboardDbId: string): Promise<StoryboardRow[]> {
+  let results: StoryboardRow[] = [];
+  let hasMore = true;
+  let startCursor: string | undefined = undefined;
+
+  while (hasMore) {
+    const resp = await queryDatabase(
+      storyboardDbId,
+      [{ property: "Beat ID", direction: "ascending" }],
+      100,
+      startCursor
+    ) as QueryDatabaseResponse;
+
+    results = results.concat(
+      resp.results
+        .filter((r): r is PageObjectResponse => r.object === "page")
+        .map((page) => {
+          const p = page.properties as any;
+          return {
+            section: getPlain(p["Section"]),
+            paragraph: getPlain(p["Paragraph"]),
+            beatText: getPlain(p["Beat Text"]),
+            visualDescription: getPlain(p["Visual Description"])
+          };
+        })
+    );
+    hasMore = resp.has_more;
+    startCursor = resp.next_cursor ?? undefined;
+  }
+  return results;
 }
 
 /**
@@ -67,23 +98,7 @@ export async function writeFormattedScriptMarkdown(
   storyboardDbId: string,
   outputPath: string
 ) {
-  // 1. fetch storyboard rows
-  const resp = (await queryDatabase(storyboardDbId, [
-    { property: "Beat ID", direction: "ascending" }
-  ], 100)) as QueryDatabaseResponse;
-
-  const rows: StoryboardRow[] = resp.results
-    .filter((r): r is PageObjectResponse => r.object === "page")
-    .map((page) => {
-      const p = page.properties as any;
-      return {
-        section: getPlain(p["Section"]),
-        paragraph: getPlain(p["Paragraph"]),
-        beatText: getPlain(p["Beat Text"]),
-        visualDescription: getPlain(p["Visual Description"])
-      };
-    });
-
+  const rows = await getAllStoryboardRows(storyboardDbId);
   const markdown = rowsToMarkdown(rows);
   fs.writeFileSync(outputPath, markdown, "utf-8");
 }

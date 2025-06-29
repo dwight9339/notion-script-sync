@@ -30,12 +30,16 @@ export async function updateBlock(blockId: string, bulletedListItem: any) {
     return notion.blocks.update({ block_id: blockId, bulleted_list_item: bulletedListItem });
 }
 
-export async function queryDatabase(databaseId: string, sorts: any[] = [], pageSize: number = 100) {
-    return await notion.databases.query({
+export async function queryDatabase(databaseId: string, sorts: any[] = [], pageSize: number = 100, startCursor?: string) {
+    const params: any = {
         database_id: databaseId,
         sorts,
         page_size: pageSize
-    });
+    };
+    if (startCursor) {
+        params.start_cursor = startCursor;
+    }
+    return await notion.databases.query(params);
 }
 
 export async function appendBlockChildren(blockId: string, children: any[]) {
