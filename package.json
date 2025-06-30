@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "build:core": "pnpm --filter @sprongus/core run build"
+        "build:core": "pnpm --filter @sprongus/core run build",
+        "build:cli": "pnpm --filter @sprongus/cli run build"
     },
     "devDependencies": {
         "eslint": "^9.30.0",

@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/commands/hello/index.ts","./src/commands/hello/world.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/commands/config/index.ts","./src/commands/config/path.ts","./src/commands/config/set.ts","./src/commands/hello/index.ts","./src/commands/hello/world.ts","./src/commands/project/index.ts"],"version":"5.8.3"}

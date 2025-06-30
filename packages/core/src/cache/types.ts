@@ -9,3 +9,9 @@ export interface ProjectCacheRecord {
   citationsDbId?: string;
   lastUpdated?: string;
 }
+
+export interface CoreConfig {
+  notionApiKey?: string;
+  openAiApiKey?: string;
+  [key: string]: unknown;
+}

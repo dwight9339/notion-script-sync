@@ -11,7 +11,8 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
-    "@sprongus/core": "workspace:^"
+    "@sprongus/core": "workspace:^",
+    "dotenv": "^16.6.1"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
@@ -56,6 +57,9 @@
     "topics": {
       "hello": {
         "description": "Say hello to the world and others"
+      },
+      "project": {
+        "description": "Configure Notion projects"
       }
     }
   },

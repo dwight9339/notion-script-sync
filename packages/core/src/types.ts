@@ -1,2 +1,2 @@
-export * from "./cache/project.types";
+export * from "./cache/types";
 export * from "./script/script.types";

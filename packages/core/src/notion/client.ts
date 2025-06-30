@@ -1,13 +1,11 @@
 import { Client } from "@notionhq/client";
-import { config } from "dotenv"
-
-config()
-
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+import { Config } from "../cache"
 
 export async function getNotionClient() {
-  if (!process.env.NOTION_API_KEY) {
-      throw new Error("NOTION_API_KEY is not set in environment variables.");
+  const notionKey = Config.getConfigValue<string>("notionApiKey");
+
+  if (!notionKey) {
+      throw new Error("Notion API key not configured");
   }
-  return new Client({ auth: process.env.NOTION_API_KEY });
+  return new Client({ auth: notionKey });
 }

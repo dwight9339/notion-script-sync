@@ -1,2 +1,2 @@
-export * from "./project";
-export * from "./project.types";
+export * as Config from "./config";
+// export * as Project from "./project";

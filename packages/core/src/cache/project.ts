@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import fs from "fs";
 import path from "path";
 import envPaths from "env-paths";
-import { ProjectCacheRecord } from "./project.types";
+import { ProjectCacheRecord } from "./types";
 
 const paths = envPaths("sprongus");
 const dbDir = paths.config;
