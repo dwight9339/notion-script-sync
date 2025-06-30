@@ -9,18 +9,21 @@ import {
   getStoryboardDbId,
   getProjectPageTitle
 } from "./helpers";
+import { mergeCsvToStoryboard } from "./merge";
 
 function printUsage() {
-  console.log("Usage: node dist/index.js <projectPageId> [--sync|--format]");
+  console.log("Usage: node dist/index.js <projectPageId> [--sync|--format|--merge <csvPath>]");
   console.log("  --sync   : Sync storyboard with script");
-  console.log("  --format : Update formatted script toggle");
+  console.log("  --format : Output formatted script markdown");
+  console.log("  --merge <csvPath> : Merge CSV into storyboard");
 }
 
 const args = process.argv.slice(2);
 const projectPageId = args[0];
 const flag = args[1];
+const csvPath = args[2];
 
-if (!projectPageId || (!flag || (flag !== "--sync" && flag !== "--format"))) {
+if (!projectPageId || !flag || (flag !== "--sync" && flag !== "--format" && flag !== "--merge")) {
   printUsage();
   process.exit(1);
 }
@@ -38,6 +41,13 @@ if (!projectPageId || (!flag || (flag !== "--sync" && flag !== "--format"))) {
       const outputPath = `./output/${projectTitle}_script.md`;
       await writeFormattedScriptMarkdown(storyboardDbId, outputPath);
       console.log(`Formatted script written to ${outputPath}`);
+    } else if (flag === "--merge") {
+      if (!csvPath) {
+        printUsage();
+        process.exit(1);
+      }
+      await mergeCsvToStoryboard(projectPageId, csvPath);
+      console.log("Storyboard updated from CSV.");
     }
   } catch (error) {
     console.error("Error:", error);
