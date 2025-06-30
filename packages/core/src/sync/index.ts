@@ -7,18 +7,14 @@ import {
     ScriptSection,
     ScriptParagraph,
     ScriptBeat
-} from "./types";
+} from "../types";
 import {
     retrievePage,
     listBlockChildren,
     updatePage,
     createPageInDatabase,
     updateBlock
-} from "./notion";
-import {
-    getStoryboardDbId,
-    getScriptBlockId,
-}  from "./helpers";
+} from "../notion";
 
 export async function getProjectPageId(rowId: string) {
     const row = await retrievePage(rowId);

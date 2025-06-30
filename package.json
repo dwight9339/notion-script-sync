@@ -2,7 +2,9 @@
     "name": "sprongus",
     "version": "1.0.0",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build:core": "pnpm --filter @sprongus/core run build"
+    },
     "devDependencies": {
         "eslint": "^9.30.0",
         "prettier": "^3.6.2",

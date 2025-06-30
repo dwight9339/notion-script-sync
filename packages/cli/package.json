@@ -10,7 +10,8 @@
   "dependencies": {
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "@sprongus/core": "workspace:^"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
@@ -43,7 +44,6 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
-  
   "oclif": {
     "bin": "sprongus",
     "dirname": "sprongus",

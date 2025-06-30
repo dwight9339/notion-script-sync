@@ -2,22 +2,14 @@ import {
     PageObjectResponse,
     QueryDatabaseResponse,
     RichTextItemResponse,
-    SelectPropertyItemObjectResponse,
-    BlockObjectResponse,
-    ToggleBlockObjectResponse
+    SelectPropertyItemObjectResponse
 } from "@notionhq/client/build/src/api-endpoints";
 import {
   queryDatabase
-} from "./notion";
-import { normalize } from "./helpers";
+} from "../notion";
+import { StoryboardRow } from "../storyboard";
 import * as fs from "fs";
-
-interface StoryboardRow {
-  section: string;
-  paragraph: string;
-  beatText: string;
-  visualDescription: string;
-}
+import { get } from "http";
 
 /** Utility to squeeze plain‑text from a Notion property */
 function getPlain(prop: any): string {
@@ -54,6 +46,7 @@ async function getAllStoryboardRows(storyboardDbId: string): Promise<StoryboardR
         .map((page) => {
           const p = page.properties as any;
           return {
+            beatId: getPlain(p["Beat ID"]),
             section: getPlain(p["Section"]),
             paragraph: getPlain(p["Paragraph"]),
             beatText: getPlain(p["Beat Text"]),

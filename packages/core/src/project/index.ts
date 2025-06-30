@@ -1,11 +1,9 @@
 import {
-    PageObjectResponse,
     BlockObjectResponse,
     ToggleBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { listBlockChildren, retrievePage } from "./notion";
-
-export const normalize = (s?: string) => (s ?? "").trim().toLowerCase();
+import { listBlockChildren, retrievePage } from "../notion";
+import { normalize } from "../utils/string";
 
 export async function getScriptBlockId(projectPageId: string): Promise<string> {
   // 1 · find the “Script” child page
