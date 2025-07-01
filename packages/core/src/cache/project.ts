@@ -4,6 +4,8 @@ import path from "path";
 import envPaths from "env-paths";
 import { ProjectCacheRecord } from "./types";
 
+export { ProjectCacheRecord } from "./types";
+
 const paths = envPaths("sprongus");
 const dbDir = paths.config;
 const dbPath = path.join(dbDir, "db.sqlite");
@@ -17,8 +19,8 @@ const db = new Database(dbPath);
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS projects (
-    alias TEXT PRIMARY KEY,
-    project_page_id TEXT NOT NULL,
+    project_page_id TEXT PRIMARY KEY,
+    alias TEXT UNIQUE,
     project_title TEXT,
     script_page_id TEXT,
     script_block_id TEXT,
@@ -43,8 +45,8 @@ export function upsertProjectRecord(record: ProjectCacheRecord): void {
 
   const stmt = db.prepare(`
     INSERT INTO projects (
-      alias,
       project_page_id,
+      alias,
       project_title,
       script_page_id,
       script_block_id,
@@ -54,8 +56,8 @@ export function upsertProjectRecord(record: ProjectCacheRecord): void {
       last_updated
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-    ON CONFLICT(alias) DO UPDATE SET
-      project_page_id = excluded.project_page_id,
+    ON CONFLICT(project_page_id) DO UPDATE SET
+      alias = excluded.alias,
       project_title = excluded.project_title,
       script_page_id = excluded.script_page_id,
       script_block_id = excluded.script_block_id,
@@ -66,8 +68,8 @@ export function upsertProjectRecord(record: ProjectCacheRecord): void {
   `);
 
   stmt.run(
-    alias,
     projectPageId,
+    alias,
     projectTitle ?? null,
     scriptPageId ?? null,
     scriptBlockId ?? null,
@@ -79,6 +81,11 @@ export function upsertProjectRecord(record: ProjectCacheRecord): void {
 
 export function getProjectByAlias(alias: string): ProjectCacheRecord | undefined {
   const row = db.prepare(`SELECT * FROM projects WHERE alias = ?`).get(alias);
+  return row ? mapRow(row) : undefined;
+}
+
+export function getProjectByPageId(pageId: string): ProjectCacheRecord | undefined {
+  const row = db.prepare(`SELECT * FROM projects WHERE project_page_id = ?`).get(pageId);
   return row ? mapRow(row) : undefined;
 }
 
@@ -94,8 +101,8 @@ export function mapRow(row: any): ProjectCacheRecord {
   }
 
   return {
-    alias: row.alias,
     projectPageId: row.project_page_id,
+    alias: row.alias,
     projectTitle: row.project_title ?? undefined,
     scriptPageId: row.script_page_id ?? undefined,
     scriptBlockId: row.script_block_id ?? undefined,
@@ -105,3 +112,11 @@ export function mapRow(row: any): ProjectCacheRecord {
     lastUpdated: row.last_updated ?? undefined
   };
 }
+
+export function removeProjectRecord(alias: string): boolean {
+  const stmt = db.prepare("DELETE FROM projects WHERE alias = ?");
+  const result = stmt.run(alias);
+
+  return result.changes > 0;
+}
+

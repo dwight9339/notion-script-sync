@@ -1,15 +1,9 @@
 export { Config } from "./cache";
-// export { Project as ProjectCache } from "./cache";
+export { Project as ProjectCache } from "./cache";
 export * as Notion from "./notion";
 export * as Formatting from "./formatting";
 export * as Storyboard from "./storyboard";
 export * as Sync from "./sync";
 export * as Project from "./project";
 export * as Script from "./script";
-
-export {
-  getProjectPageTitle,
-  getScriptBlockId,
-  getStoryboardDbId,
-} from "./project";
 
