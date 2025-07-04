@@ -1,19 +1,27 @@
+export enum ScriptSubsectionType {
+  Section = "Section",
+  Paragraph = "Paragraph"
+}
+
+export interface ScriptSubsection {
+  blockId: string;
+  parentBlockId: string;
+  scriptBlockId: string;
+  lastFetched: string;
+  lastEdited: string;
+  title: string;
+  index: number;
+  type: ScriptSubsectionType;
+}
+
 export interface ScriptBeat {
-  notionId: string;          // Notion ID of the beat block
-  storyboardRowId?: string;  // ID of the corresponding storyboard row, if it exists
-  id: string;                // e.g., "01.02.03"
-  content: string;           // The actual line of script
-  oldId?: string;            // ID of the previous version of the beat
+  blockId: string;
+  parentBlockId: string;
+  scriptBlockId: string;
+  storyboardRowId: string;
+  index: number;
+  text: string;
+  lastFetched: string;
+  lastEdited: string;
+  hash: string;
 }
-
-export interface ScriptParagraph {
-  title: string;           // e.g., "Scraping for Popularity Data"
-  beats: ScriptBeat[];     // Ordered list of beats
-}
-
-export interface ScriptSection {
-  title: string;           // e.g., "Data Exploration"
-  paragraphs: ScriptParagraph[];
-}
-
-export type ScriptDocument = ScriptSection[];

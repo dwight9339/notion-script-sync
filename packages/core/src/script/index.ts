@@ -1,1 +1,2 @@
-export * from "./script.types";
+export * from "./script";
+export * from "./types";

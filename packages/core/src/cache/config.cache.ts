@@ -1,7 +1,12 @@
 import fs from "fs";
 import path from "path";
 import envPaths from "env-paths";
-import { CoreConfig } from "./types";
+
+export interface CoreConfig {
+  notionApiKey?: string;
+  openAiApiKey?: string;
+  [key: string]: unknown;
+}
 
 const configPath = path.join(envPaths("sprongus").config, "config.json");
 

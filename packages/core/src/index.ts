@@ -1,5 +1,4 @@
-export { Config } from "./cache";
-export { Project as ProjectCache } from "./cache";
+export { Config, ProjectCache, ScriptCache } from "./cache";
 export * as Notion from "./notion";
 export * as Formatting from "./formatting";
 export * as Storyboard from "./storyboard";

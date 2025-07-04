@@ -1,21 +1,19 @@
 import Database from "better-sqlite3";
-import fs from "fs";
-import path from "path";
-import envPaths from "env-paths";
-import { ProjectCacheRecord } from "./types";
+import { getDb } from "./db.cache";
 
-export { ProjectCacheRecord } from "./types";
-
-const paths = envPaths("sprongus");
-const dbDir = paths.config;
-const dbPath = path.join(dbDir, "db.sqlite");
-
-// Ensure config directory exists
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+export interface ProjectCacheRecord {
+  alias: string;
+  projectPageId: string;
+  projectTitle?: string;
+  scriptPageId?: string;
+  scriptBlockId?: string;
+  storyboardDbId?: string;
+  assetsDbId?: string;
+  citationsDbId?: string;
+  lastUpdated?: string;
 }
 
-const db = new Database(dbPath);
+const db = getDb();
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS projects (
