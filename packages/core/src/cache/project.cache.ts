@@ -1,16 +1,13 @@
-import Database from "better-sqlite3";
+// TODO: Flesh out a project cache record schema and fix this file
+
 import { getDb } from "./db.cache";
 
 export interface ProjectCacheRecord {
   alias: string;
-  projectPageId: string;
-  projectTitle?: string;
-  scriptPageId?: string;
-  scriptBlockId?: string;
-  storyboardDbId?: string;
-  assetsDbId?: string;
-  citationsDbId?: string;
-  lastUpdated?: string;
+  projectId: string;
+  scriptConfig: unknown;
+  storyboardConfig: unknown;
+  auxTableConfig?: Record<string, unknown>;
 }
 
 const db = getDb();

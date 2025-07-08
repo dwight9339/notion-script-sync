@@ -1,1 +1,1 @@
-export * from "./script.providers";
+export * from "./script.provider";
